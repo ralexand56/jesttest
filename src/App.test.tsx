@@ -27,19 +27,44 @@ it('palindrome', () => {
   expect(isPalindrome('anna')).toBe('anna');
 });
 
+interface KeyVal {
+  ind: number;
+  misc: number;
+  val: string;
+}
+
 it('getSubsequence', () => {
   const seq = (s1: string, s2: string) => {
-    return s1
-      .split('')
-      .reduce(
-        (acc: Record<string, number>[], curr: string, ind: number) =>
-          s2.split('').indexOf(curr, ind) > -1
-            ? [...acc, { [curr]: s2.split('').indexOf(curr, ind) }]
-            : [...acc],
-        [],
-      )
-      .map(x => Object.keys(x));
+    return s1.split('').reduce(
+      (acc: KeyVal[], curr: string, ind: number) =>
+        s2.indexOf(curr, acc.length > 0 ? acc[acc.length - 1].ind : 0) > -1
+          ? [
+              ...acc,
+              {
+                ind: s2.indexOf(curr),
+                misc: acc.length > 0 ? acc[acc.length - 1].ind : 0,
+                val: curr
+              }
+            ]
+          : [...acc],
+      []
+    );
   };
 
-  expect(seq('ABAZDC', 'BACBAD')).toBe([]);
+  // expect(seq('ACBAZDC', 'AAABACB')).toEqual('ACB');
 });
+
+it('index of works', () => {
+  const indOf = (str1: string, str2: string, fndInd: number) =>
+    str1.indexOf(str2, fndInd);
+
+  expect(indOf('AAABACB', 'A', 5)).toEqual(3);
+});
+
+const y = [
+  { ind: 0, misc: 0, val: 'A' },
+  { ind: 5, misc: 0, val: 'C' },
+  { ind: 3, misc: 5, val: 'B' },
+  { ind: 0, misc: 3, val: 'A' },
+  { ind: 5, misc: 0, val: 'C' }
+];
