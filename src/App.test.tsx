@@ -11,6 +11,16 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
+it('doesnt crash', () => {
+  const div = document.createElement('div');
+
+  ReactDOM.render(<App />, div);
+
+  expect(div.innerHTML).toBeTruthy();
+
+  ReactDOM.unmountComponentAtNode(div);
+});
+
 it('adds numbers', () => {
   const add = (a: number, b: number) => a + b;
 
@@ -51,14 +61,7 @@ it('getSubsequence', () => {
     );
   };
 
-  // expect(seq('ACBAZDC', 'AAABACB')).toEqual('ACB');
-});
-
-it('index of works', () => {
-  const indOf = (str1: string, str2: string, fndInd: number) =>
-    str1.indexOf(str2, fndInd);
-
-  expect(indOf('AAABACB', 'A', 5)).toEqual(3);
+  // expect(seq('ABAZDC', 'BACBAD')).toBe([]);
 });
 
 const y = [
